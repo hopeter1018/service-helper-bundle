@@ -1,0 +1,11 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    HoPeter1018\ServiceHelperBundle\Command\:
+        resource: '../../Command/*'
+        tags: ['console.command']
+
+    # TODO Root level registry

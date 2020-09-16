@@ -1,0 +1,3 @@
+ho_peter1018_service_helper_homepage:
+    path:     /
+    defaults: { _controller: HoPeter1018ServiceHelperBundle:Default:index }

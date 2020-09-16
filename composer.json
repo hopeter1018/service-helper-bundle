@@ -1,0 +1,28 @@
+{
+    "name": "hopeter1018/service-helper-bundle",
+    "description": "",
+    "keywords": ["Symfony", "Bundle", "Service", "Registry"],
+    "version": "0.1.0",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Peter",
+            "email": "hokwaichi@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "HoPeter1018\\PresignedFilemanagerBundle\\": ""
+        }
+    },
+    "require": {
+        "php": ">=5.5.9",
+        "danielstjules/stringy": "^3.1"
+    },
+    "require-dev": {
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
