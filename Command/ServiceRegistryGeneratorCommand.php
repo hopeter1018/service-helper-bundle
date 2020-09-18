@@ -63,6 +63,7 @@ class ServiceRegistryGeneratorCommand extends ContainerAwareCommand
     {
         $this->engine = $engine;
         $this->fileLocator = $fileLocator;
+
         parent::__construct();
     }
 
@@ -110,7 +111,8 @@ class ServiceRegistryGeneratorCommand extends ContainerAwareCommand
                 .'use '.$this->bundleNamespace.'\\DependencyInjection\\'.$this->providerNamespace.'\\'.$this->classShortNamePrefix.'Pass;'.$linebreak
                 .'use '.$this->bundleNamespace.'\\Services\\'.$this->providerNamespace.'\\'.$this->classShortNamePrefix.'\\'.$this->classShortNamePrefix.'Interface;'.$linebreak
                 .'use ';
-                $replaces['public function build(ContainerBuilder $container)'.$linebreak.'    {'] = 'public function build(ContainerBuilder $container){$container->addCompilerPass(new '.$this->classShortNamePrefix.'Pass());'."\$container->registerForAutoconfiguration({$this->classShortNamePrefix}Interface::class)->addTag('{$this->providerNameBundleSuffix}.{$this->providerNamespaceSnaked}.{$this->providerNameSnaked}registry');";
+                $replaces['public function build(ContainerBuilder $container)'.$linebreak.'    {'] = 'public function build(ContainerBuilder $container){$container->addCompilerPass(new '.$this->classShortNamePrefix.'Pass());'
+                  ."\$container->registerForAutoconfiguration({$this->classShortNamePrefix}Interface::class)->addTag('{$this->providerNameBundleSuffix}.{$this->providerNamespaceSnaked}.{$this->providerNameSnaked}pool');";
             }
             !$this->dryRun and file_put_contents($targetFile, str_replace(array_keys($replaces), array_values($replaces), $content));
             $io->text('- Modified '.$targetFile);
@@ -122,7 +124,11 @@ class ServiceRegistryGeneratorCommand extends ContainerAwareCommand
         if (file_exists($targetFile = $this->bundleDirectory.'DependencyInjection\\'.str_replace('Bundle', 'Extension', $this->bundle).'.php')) {
             $content = file_get_contents($targetFile);
             $replaces = [];
-            if (!strstr($content, '$loader->load(\'services/'.$this->providerNamespaceSnaked.'.'.substr($this->providerNameSnaked, 0, -1).'.xml\');')) {
+            if (!strstr($content, '$loader->load(\'services/'.$this->providerNamespaceSnaked.'.'.substr($this->providerNameSnaked, 0, -1).'.yaml\');')) {
+                $replaces['$loader->load(\'services.yaml\');'] = '$loader->load(\'services.yaml\');$loader->load(\'services/'.$this->providerNamespaceSnaked.'.'.substr($this->providerNameSnaked, 0, -1).'.yaml\');';
+            } elseif (!strstr($content, '$loader->load(\'services/'.$this->providerNamespaceSnaked.'.'.substr($this->providerNameSnaked, 0, -1).'.yml\');')) {
+                $replaces['$loader->load(\'services.yml\');'] = '$loader->load(\'services.yml\');$loader->load(\'services/'.$this->providerNamespaceSnaked.'.'.substr($this->providerNameSnaked, 0, -1).'.yml\');';
+            } elseif (!strstr($content, '$loader->load(\'services/'.$this->providerNamespaceSnaked.'.'.substr($this->providerNameSnaked, 0, -1).'.xml\');')) {
                 $replaces['$loader->load(\'services.xml\');'] = '$loader->load(\'services.xml\');$loader->load(\'services/'.$this->providerNamespaceSnaked.'.'.substr($this->providerNameSnaked, 0, -1).'.xml\');';
             }
 

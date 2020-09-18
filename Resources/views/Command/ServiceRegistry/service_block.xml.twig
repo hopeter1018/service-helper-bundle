@@ -1,0 +1,7 @@
+
+        <service id="{{ service_id_bundle_suffix }}.{{ service_id_namespace_prefix }}.{{ service_id_prefix }}.{{ new_service_name }}" class="{{ new_service_fqcn }}">
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
+            <tag name="{{ service_id_bundle_suffix }}.{{ service_id_namespace_prefix }}.{{ service_id_prefix }}pool" />
+        </service>

@@ -2,19 +2,17 @@
 
 declare(strict_types=1);
 
-namespace EasternColor\CoreBundle\Services\ProviderRegistry;
+namespace HoPeter1018\ServiceHelperBundle\Service\Registry;
 
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
-class BaseProviderRegistry implements ContainerAwareInterface, ProviderRegistryInterface
+class BaseRegistry implements ContainerAwareInterface, RegistryInterface
 {
     use ContainerAwareTrait;
 
     /**
-     * [$providers description].
-     *
-     * @var array|mixed[]
+     * @var array|mixed[]|RegistryInterface[]
      */
     private $providers;
 
@@ -28,7 +26,7 @@ class BaseProviderRegistry implements ContainerAwareInterface, ProviderRegistryI
         $this->providers[$id] = $provider;
     }
 
-    public function gets()
+    public function getAll()
     {
         return $this->providers;
     }
@@ -36,7 +34,6 @@ class BaseProviderRegistry implements ContainerAwareInterface, ProviderRegistryI
     public function getChoices()
     {
         $choices = [];
-        /* @var $provider DeliveryModuleProviderInerface */
         foreach ($this->providers as $id => $provider) {
             $choices[$provider->getChoiceName()] = $id;
         }
@@ -47,7 +44,6 @@ class BaseProviderRegistry implements ContainerAwareInterface, ProviderRegistryI
     public function getIds(): array
     {
         $choices = [];
-        /* @var $provider DeliveryModuleProviderInerface */
         foreach ($this->providers as $id => $provider) {
             $choices[] = $id;
         }

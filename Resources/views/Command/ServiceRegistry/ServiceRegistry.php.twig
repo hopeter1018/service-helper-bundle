@@ -2,14 +2,68 @@
 
 declare(strict_types=1);
 
-namespace {{ bundle_namespace }}Bundle\Services\{{ namespace }}\{{ name }};
-
-use HoPeter1018\ServiceHelperBundle\Services\Registry\BaseRegistry;
+namespace {{ bundle_namespace }}\Services\{{ namespace }}\{{ name }};
 
 /**
  * {{ name }}Registry
  * Generated: {{ null | date('c') }}
  */
-class {{ name }}Registry extends BaseRegistry
+class {{ name }}Registry
 {
+    /**
+     * @var array|mixed[]|{{ name }}Interface[]
+     */
+    private $providers;
+
+    public function __construct()
+    {
+        $this->providers = [];
+    }
+
+    public function add($id, $provider, $tags)
+    {
+        $this->providers[$id] = $provider;
+    }
+
+    public function gets()
+    {
+        return $this->providers;
+    }
+
+    public function getChoices()
+    {
+        $choices = [];
+        /* @var $provider DeliveryModuleProviderInerface */
+        foreach ($this->providers as $id => $provider) {
+            $choices[$provider->getChoiceName()] = $id;
+        }
+
+        return $choices;
+    }
+
+    public function getIds(): array
+    {
+        $choices = [];
+        /* @var $provider DeliveryModuleProviderInerface */
+        foreach ($this->providers as $id => $provider) {
+            $choices[] = $id;
+        }
+
+        return $choices;
+    }
+
+    public function getMaps($prefix)
+    {
+        $result = [];
+        foreach ($this->providers as $serviceId => $provider) {
+            $result[$serviceId] = [$prefix.md5($serviceId)];
+        }
+
+        return $result;
+    }
+
+    public function getByServiceId($id)
+    {
+        return (isset($this->providers[$id])) ? $this->providers[$id] : null;
+    }
 }

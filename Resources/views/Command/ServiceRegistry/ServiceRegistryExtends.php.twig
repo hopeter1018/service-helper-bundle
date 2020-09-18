@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace {{ bundle_namespace }}\Services\{{ namespace }}\{{ name }};
 
+use HoPeter1018\ServiceHelperBundle\Services\Registry\BaseRegistry;
+
 /**
- * {{ name }}Interface
+ * {{ name }}Registry
  * Generated: {{ null | date('c') }}
  */
-interface {{ name }}Interface
+class {{ name }}Registry extends BaseRegistry
 {
 }
