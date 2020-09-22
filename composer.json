@@ -2,7 +2,7 @@
     "name": "hopeter1018/service-helper-bundle",
     "description": "",
     "keywords": ["Symfony", "Bundle", "Service", "Registry"],
-    "version": "0.2.0",
+    "version": "1.0.0",
     "license": "MIT",
     "authors": [
         {
